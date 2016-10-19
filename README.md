@@ -1,11 +1,12 @@
 # iocpengine
 iocpengine
 
-Оригинал когда-то нашёл на просторах интернета у юзера FabianKantereit.
+Оригинал когда-то нашёл на просторах интернета у юзера FabianKantereit: https://bitbucket.org/FabianKantereit/iocpengine ;
+
 Есть такая тема - порты завершения (IOCP): https://habrahabr.ru/post/59282/
 Китайские ресурсы на эту тему:
-http://www.diocp.org/
-https://github.com/ymofen/diocp-v5
+http://www.diocp.org/ ,
+https://github.com/ymofen/diocp-v5 ,
 https://github.com/ymofen
 
 FastMM4: https://github.com/pleriche/FastMM4/
