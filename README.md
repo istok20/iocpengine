@@ -1,16 +1,16 @@
 # iocpengine
 iocpengine
 
-Оригинал когда-то нашёл на просторах интернета у юзера FabianKantereit.
-Есть такая тема - порты завершения (IOCP): https://habrahabr.ru/post/59282/
-Китайские ресурсы на эту тему:
+РћСЂРёРіРёРЅР°Р» РєРѕРіРґР°-С‚Рѕ РЅР°С€С‘Р» РЅР° РїСЂРѕСЃС‚РѕСЂР°С… РёРЅС‚РµСЂРЅРµС‚Р° Сѓ СЋР·РµСЂР° FabianKantereit.
+Р•СЃС‚СЊ С‚Р°РєР°СЏ С‚РµРјР° - РїРѕСЂС‚С‹ Р·Р°РІРµСЂС€РµРЅРёСЏ (IOCP): https://habrahabr.ru/post/59282/
+РљРёС‚Р°Р№СЃРєРёРµ СЂРµСЃСѓСЂСЃС‹ РЅР° СЌС‚Сѓ С‚РµРјСѓ:
 http://www.diocp.org/
 https://github.com/ymofen/diocp-v5
 https://github.com/ymofen
 
 FastMM4: https://github.com/pleriche/FastMM4/
 
-Настройки FastMM4:
+РќР°СЃС‚СЂРѕР№РєРё FastMM4:
 
 { Group the options you use for release and debug versions below }
 {$IFDEF Release}
