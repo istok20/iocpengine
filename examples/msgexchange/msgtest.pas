@@ -28,25 +28,25 @@ type
     FLog: TStringList;
     FLogGuard: TCriticalSection;
 
-    procedure LogServer(const S: String);
-    procedure LogClient(const S: String);
+    procedure LogServer(const S: string);
+    procedure LogClient(const S: string);
 
     // Server handlers
-    procedure Server_ClientConnected (Sender: TObject; ClientRec: TClientRec);
-    procedure Server_ClientAuthentication (Sender: TObject; ClientRec: TClientRec; var Authenticated: Boolean);
-    procedure Server_DataReceived (Sender: TObject; ClientRec: TClientRec; Stream: TStream);
-    procedure Server_ClientDisconnectedEvent (Sender: TObject; ClientRec: TClientRec);
-    procedure Server_Error (Sender: TObject; Client: TClientRec; ErrorMessage: string);
-    procedure Server_StreamSent (Sender: TObject; Client: TClientRec; Stream: TStream);
+    procedure Server_ClientConnected(Sender: TObject; ClientRec: TClientRec);
+    procedure Server_ClientAuthentication(Sender: TObject; ClientRec: TClientRec; var Authenticated: boolean);
+    procedure Server_DataReceived(Sender: TObject; ClientRec: TClientRec; Stream: TStream);
+    procedure Server_ClientDisconnectedEvent(Sender: TObject; ClientRec: TClientRec);
+    procedure Server_Error(Sender: TObject; Client: TClientRec; ErrorMessage: string);
+    procedure Server_StreamSent(Sender: TObject; Client: TClientRec; Stream: TStream);
 
     // Client handlers
-    procedure Client_Connected (Sender: TObject);
-    procedure Client_Disconnected (Sender: TObject);
-    procedure Client_Error (Sender: TObject; ErrorMessage: AnsiString);
-    procedure Client_DataReceived (Sender: TObject; Stream: TStream);
-    procedure Client_StreamSent (Sender: TObject; Stream: TStream);
-    procedure Client_AuthResult (Sender: TObject; Res: Boolean; const Msg: RawByteString);
-    procedure Client_ListOfClients (Sender: TObject; ClientList: TObjectList);
+    procedure Client_Connected(Sender: TObject);
+    procedure Client_Disconnected(Sender: TObject);
+    procedure Client_Error(Sender: TObject; ErrorMessage: ansistring);
+    procedure Client_DataReceived(Sender: TObject; Stream: TStream);
+    procedure Client_StreamSent(Sender: TObject; Stream: TStream);
+    procedure Client_AuthResult(Sender: TObject; Res: boolean; const Msg: RawByteString);
+    procedure Client_ListOfClients(Sender: TObject; ClientList: TObjectList);
 
   public
   end;
@@ -63,10 +63,10 @@ begin
   FLog := TStringList.Create();
   FLogGuard := TCriticalSection.Create();
 
-  FClient := TCommonMsgClient.Create(Nil);
-  FServer := TCommonMsgServer.Create(Nil);
+  FClient := TCommonMsgClient.Create(nil);
+  FServer := TCommonMsgServer.Create(nil);
   FClient.HeartbeatInterval := 20;
-  FClient.Handshake := True;
+  FClient.Handshake := true;
   FClient.Host := '127.0.0.1';
   //FClient.Host := '127.0.0.1';
   FClient.Port := 8083;
@@ -88,7 +88,7 @@ begin
   FServer.OnError := Self.Server_Error;
   FServer.OnStreamSent := Self.Server_StreamSent;
 
-  TmrLog.Enabled := True;
+  TmrLog.Enabled := true;
 end;
 
 procedure TFrmTest.FormDestroy(Sender: TObject);
@@ -99,63 +99,67 @@ begin
   FreeAndNil(FLogGuard);
 end;
 
-procedure TFrmTest.LogServer(const S: String);
-var Msg: String;
+procedure TFrmTest.LogServer(const S: string);
+var
+  Msg: string;
 begin
   Msg := 'Server: ' + S;
   FLog.Add(Msg);
   //OutputDebugString(PWideChar(Msg));
 end;
 
-procedure TFrmTest.LogClient(const S: String);
-var Msg: String;
+procedure TFrmTest.LogClient(const S: string);
+var
+  Msg: string;
 begin
   Msg := 'Client: ' + S;
   FLog.Add(Msg);
   //OutputDebugString(PWideChar(Msg));
 end;
 
-procedure TFrmTest.Server_ClientConnected (Sender: TObject; ClientRec: TClientRec);
+procedure TFrmTest.Server_ClientConnected(Sender: TObject; ClientRec: TClientRec);
 begin
   LogServer('client connected');
   FServer.SendString('test', ClientRec);
 end;
 
-procedure TFrmTest.Server_ClientAuthentication (Sender: TObject; ClientRec: TClientRec; var Authenticated: Boolean);
-var Request: AnsiString;
+procedure TFrmTest.Server_ClientAuthentication(Sender: TObject; ClientRec: TClientRec; var Authenticated: boolean);
+var
+  Request: ansistring;
 begin
   LogServer('client authenticated');
-  Authenticated := True;
+  Authenticated := true;
   SetLength(Request, 2048);
   FillChar(Request[1], 2048, 123);
   FServer.SendString(Request, ClientRec);
   //FServer.SendString('test', ClientRec);
 end;
 
-procedure TFrmTest.Server_DataReceived (Sender: TObject; ClientRec: TClientRec; Stream: TStream);
+procedure TFrmTest.Server_DataReceived(Sender: TObject; ClientRec: TClientRec; Stream: TStream);
 begin
   LogServer('received ' + IntToStr(Stream.Size) + ' bytes');
   Stream.Position := 0;
   FServer.SendString('TTTTTTTTTTTTT', ClientRec);
 end;
 
-procedure TFrmTest.Server_ClientDisconnectedEvent (Sender: TObject; ClientRec: TClientRec);
+procedure TFrmTest.Server_ClientDisconnectedEvent(Sender: TObject; ClientRec: TClientRec);
 begin
   LogServer('client disconnected');
 end;
 
-procedure TFrmTest.Server_Error (Sender: TObject; Client: TClientRec; ErrorMessage: string);
+procedure TFrmTest.Server_Error(Sender: TObject; Client: TClientRec; ErrorMessage: string);
 begin
   LogServer('error ' + ErrorMessage);
 end;
 
-procedure TFrmTest.Server_StreamSent (Sender: TObject; Client: TClientRec; Stream: TStream);
+procedure TFrmTest.Server_StreamSent(Sender: TObject; Client: TClientRec; Stream: TStream);
 begin
   LogServer('sent ' + IntToStr(Stream.Size) + ' bytes');
 end;
 
 procedure TFrmTest.TmrLogTimer(Sender: TObject);
-var i: integer;
+var
+  i: integer;
 begin
   FLogGuard.Enter;
   try
@@ -181,7 +185,8 @@ begin
 end;
 
 procedure TFrmTest.TmrSendTimer(Sender: TObject);
-var Msg: AnsiString;
+var
+  Msg: ansistring;
 begin
   SetLength(Msg, 4096);
   if FClient.Active then
@@ -189,24 +194,25 @@ begin
   //FClient.SendString('TESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTEST');
 end;
 
-procedure TFrmTest.Client_Connected (Sender: TObject);
+procedure TFrmTest.Client_Connected(Sender: TObject);
 begin
   LogClient('client connected to server');
 end;
 
-procedure TFrmTest.Client_Disconnected (Sender: TObject);
+procedure TFrmTest.Client_Disconnected(Sender: TObject);
 begin
   LogClient('client disconnected from server');
-  FClient.Connect;
+  //FClient.Connect;
 end;
 
-procedure TFrmTest.Client_Error (Sender: TObject; ErrorMessage: AnsiString);
+procedure TFrmTest.Client_Error(Sender: TObject; ErrorMessage: ansistring);
 begin
-  LogClient('client error ' + String(ErrorMessage));
+  LogClient('client error ' + string(ErrorMessage));
 end;
 
-procedure TFrmTest.Client_DataReceived (Sender: TObject; Stream: TStream);
-var Response: AnsiString;
+procedure TFrmTest.Client_DataReceived(Sender: TObject; Stream: TStream);
+var
+  Response: ansistring;
 begin
   LogClient('Received ' + IntToStr(Stream.Size) + ' bytes.');
   (*
@@ -218,7 +224,7 @@ begin
   *)
 end;
 
-procedure TFrmTest.Client_StreamSent (Sender: TObject; Stream: TStream);
+procedure TFrmTest.Client_StreamSent(Sender: TObject; Stream: TStream);
 begin
   LogClient('sent ' + IntToStr(Stream.Size) + ' bytes.');
 end;
@@ -227,14 +233,14 @@ procedure TFrmTest.BtClientClick(Sender: TObject);
 begin
   if FClient.Active then
   begin
-    TmrSend.Enabled := False;
-    FClient.Active := False;
+    TmrSend.Enabled := false;
+    FClient.Active := false;
     BtClient.Caption := 'Start client';
   end
   else
   begin
-    FClient.Active := True;
-    TmrSend.Enabled := True;
+    FClient.Active := true;
+    TmrSend.Enabled := true;
     BtClient.Caption := 'Stop client';
   end;
 end;
@@ -251,28 +257,28 @@ end;
 
 procedure TFrmTest.BtServerClick(Sender: TObject);
 var
-  I: Integer;
+  I: integer;
 begin
   if FServer.Active then
   begin
     FServer.DisconnectAll;
     Sleep(500);
-    FServer.Active := False;
+    FServer.Active := false;
     BtServer.Caption := 'Start server';
   end
   else
   begin
-    FServer.Active := True;
+    FServer.Active := true;
     BtServer.Caption := 'Stop server';
   end;
 end;
 
-procedure TFrmTest.Client_AuthResult (Sender: TObject; Res: Boolean; const Msg: RawByteString);
+procedure TFrmTest.Client_AuthResult(Sender: TObject; Res: boolean; const Msg: RawByteString);
 begin
   ;
 end;
 
-procedure TFrmTest.Client_ListOfClients (Sender: TObject; ClientList: TObjectList);
+procedure TFrmTest.Client_ListOfClients(Sender: TObject; ClientList: TObjectList);
 begin
   ;
 end;
