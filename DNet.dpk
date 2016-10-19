@@ -1,0 +1,95 @@
+// The contents of this file are used with permission, subject to
+// the Mozilla Public License Version 1.1 (the "License"); you may
+// not use this file except in compliance with the License. You may
+// obtain a copy of the License at
+// http://www.mozilla.org/MPL/MPL-1.1.html
+//
+// Software distributed under the License is distributed on an
+// "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+// implied. See the License for the specific language governing
+// rights and limitations under the License.
+package DNet;
+
+{$R *.res}
+{$R 'DNET.DCR'}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$DEFINITIONINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$DEFINE DISALLOW_EXPERIMENTAL}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'DNet Delphi components'}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl,
+  vclx;
+
+contains
+  DnAbstractExecutor in 'DnAbstractExecutor.pas',
+  DnAbstractLogger in 'DnAbstractLogger.pas',
+  DnCallbackLogger in 'DnCallbackLogger.pas',
+  DnCGIParser in 'DnCGIParser.pas',
+  DnCoders in 'DnCoders.pas',
+  DnConst in 'DnConst.pas',
+  DnCookieParser in 'DnCookieParser.pas',
+  DnDataDecorator in 'DnDataDecorator.pas',
+  DnDataQueue in 'DnDataQueue.pas',
+  DnDnsRequestor in 'DnDnsRequestor.pas',
+  DnFileCachedLogger in 'DnFileCachedLogger.pas',
+  DnFileLogger in 'DnFileLogger.pas',
+  DnHttpParser in 'DnHttpParser.pas',
+  DnHttpRequest in 'DnHttpRequest.pas',
+  DnHttpRequestor in 'DnHttpRequestor.pas',
+  DnHttpServer in 'DnHttpServer.pas',
+  DnInterfaces in 'DnInterfaces.pas',
+  DnLogger in 'DnLogger.pas',
+  DnMsgClient in 'DnMsgClient.pas',
+  DnMsgClientInfo in 'DnMsgClientInfo.pas',
+  DnMsgServer in 'DnMsgServer.pas',
+  DnRegister in 'DnRegister.pas',
+  DnRtl in 'DnRtl.pas',
+  DnSimpleExecutor in 'DnSimpleExecutor.pas',
+  DnStreamSec in 'DnStreamSec.pas',
+  DnStringList in 'DnStringList.pas',
+  DnTcpAbstractRequestor in 'DnTcpAbstractRequestor.pas',
+  DnTcpChannel in 'DnTcpChannel.pas',
+  DnTcpConnect in 'DnTcpConnect.pas',
+  DnTcpConnecter in 'DnTcpConnecter.pas',
+  DnTcpFileWriter in 'DnTcpFileWriter.pas',
+  DnTcpListener in 'DnTcpListener.pas',
+  DnTcpReactor in 'DnTcpReactor.pas',
+  DnTcpRequest in 'DnTcpRequest.pas',
+  DnTcpRequestor in 'DnTcpRequestor.pas',
+  DnTcpRequests in 'DnTcpRequests.pas',
+  DnTcpWriteFile in 'DnTcpWriteFile.pas',
+  DnTimedCache in 'DnTimedCache.pas',
+  DnTimerEngine in 'DnTimerEngine.pas',
+  DnUtils in 'DnUtils.pas',
+  DnWinSockMgr in 'DnWinSockMgr.pas',
+  OpenSSLImport in 'OpenSSLImport.pas',
+  OpenSSLUtils in 'OpenSSLUtils.pas',
+  svcguid in 'svcguid.pas',
+  DnTlsBox in 'DnTlsBox.pas',
+  DnTlsChannel in 'DnTlsChannel.pas';
+
+end.
