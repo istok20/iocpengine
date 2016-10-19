@@ -1,43 +1,43 @@
 object FrmTest: TFrmTest
   Left = 390
   Top = 282
-  Width = 511
-  Height = 470
+  Width = 372
+  Height = 386
   Caption = 'Msg test'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 120
-  TextHeight = 17
+  PixelsPerInch = 96
+  TextHeight = 13
   object BtServer: TButton
-    Left = 10
-    Top = 10
-    Width = 99
-    Height = 33
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
     Caption = 'Start server'
     TabOrder = 0
     OnClick = BtServerClick
   end
   object BtClient: TButton
-    Left = 328
-    Top = 10
-    Width = 98
-    Height = 33
+    Left = 251
+    Top = 8
+    Width = 75
+    Height = 25
     Caption = 'Start client'
     TabOrder = 1
     OnClick = BtClientClick
   end
   object MmLog: TMemo
-    Left = 10
-    Top = 51
-    Width = 416
-    Height = 377
+    Left = 8
+    Top = 39
+    Width = 318
+    Height = 288
     ScrollBars = ssVertical
     TabOrder = 2
   end
