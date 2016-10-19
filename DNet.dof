@@ -15,10 +15,10 @@ K=0
 L=1
 M=0
 N=1
-O=0
+O=1
 P=1
-Q=1
-R=1
+Q=0
+R=0
 S=0
 T=0
 U=0
@@ -96,7 +96,7 @@ PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=$(DELPHI)\lib;D:\Packages\OpenStrSecII\Source
 Packages=Vcl50;Vclx50;VclSmp50;Vcldb50;vclado50;ibevnt50;Vclbde50;vcldbx50;TeeUI50;TeeDB50;Tee50;Dss50;TeeQR50;VCLIB50;Vclmid50;vclie50;Inetdb50;Inet50;webmid50;dclocx50;dclaxserver50
-Conditionals=DISALLOW_EXPERIMENTAL
+Conditionals=DEBUG;DISALLOW_EXPERIMENTAL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
@@ -105,6 +105,10 @@ HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
@@ -117,8 +121,8 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=1049
-CodePage=1251
+Locale=1033
+CodePage=1252
 [Version Info Keys]
 CompanyName=
 FileDescription=
@@ -129,10 +133,14 @@ LegalTrademarks=
 OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
-Comments=
+[Excluded Packages]
+C:\Windows\system32\IndyCore70.bpl=Indy 10 Core
+C:\Windows\system32\IndySystem70.bpl=Indy 10 System
+C:\Windows\system32\IndyProtocols70.bpl=Indy 10 Protocols
 [HistoryLists\hlConditionals]
-Count=1
-Item0=DISALLOW_EXPERIMENTAL
+Count=2
+Item0=DEBUG;DISALLOW_EXPERIMENTAL
+Item1=DISALLOW_EXPERIMENTAL
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

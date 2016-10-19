@@ -4,7 +4,7 @@ interface
 uses
   Classes, SysUtils, 
   DnConst, DnRtl, DnTcpChannel, DnDataQueue, DnTcpReactor, DnUtils,
-  OpenSSLImport, OpenSSLUtils, WinSock2, Windows;
+  OpenSSLImport, OpenSSLUtils, JwaWinsock2, Windows;
 
 const
   TlsDecodedBufferSize = 16384;

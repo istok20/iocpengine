@@ -12,7 +12,7 @@ unit DnRtl;
 
 interface
 uses
-  SysUtils, Windows, Contnrs, Classes, DnConst, Winsock2;
+  SysUtils, Windows, Contnrs, Classes, DnConst, JwaWinsock2;
 
 type
 

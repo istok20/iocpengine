@@ -2,7 +2,7 @@
 unit DnHttpServer;
 
 interface
-uses  WinSock2, Classes, SysUtils, SyncObjs, Windows, contnrs,
+uses  JwaWinsock2, Classes, SysUtils, SyncObjs, Windows, contnrs,
       DnRtl, DnTcpReactor, DnTcpListener, DnTcpRequestor,
       DnAbstractExecutor, DnSimpleExecutor, DnAbstractLogger,
       DnFileLogger, DnWinsockMgr, DnTcpChannel, DnFileCachedLogger,

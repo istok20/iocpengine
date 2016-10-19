@@ -11,7 +11,7 @@
 unit DnTcpConnect;
 interface
 uses
-  WinSock2, Windows, Classes, SysUtils, Contnrs, Math,
+  JwaWinsock2, Windows, Classes, SysUtils, Contnrs, Math,
   DnTcpReactor, DnRtl, DnAbstractExecutor, DnAbstractLogger,
   DnConst, DnTcpChannel, DnTcpRequest;
 
@@ -195,8 +195,8 @@ begin
   else
   begin
     //check if error occured
-    if (WinSock2.WSAEnumNetworkEvents(ChannelImpl.SocketHandle, Request.FConnectSignal,
-                                networkEvents) = SOCKET_ERROR) then
+    if (JwaWinsock2.WSAEnumNetworkEvents(ChannelImpl.SocketHandle, Request.FConnectSignal,
+                                @networkEvents) = SOCKET_ERROR) then
       Request.FErrorCode := WSAGetLastError
     else
       Request.FErrorCode := networkEvents.iErrorCode[FD_CONNECT_BIT];
@@ -437,11 +437,11 @@ begin
   FStartTick := CurrentTimeFromLaunch();
 
   //associate the request with Win32 event handle
-  WinSock2.WSAEventSelect(ChannelImpl.SocketHandle, FConnectSignal, FD_CONNECT);
+  JwaWinsock2.WSAEventSelect(ChannelImpl.SocketHandle, FConnectSignal, FD_CONNECT);
 
   //initiate connection
-  ResCode := WinSock2.WSAConnect(ChannelImpl.SocketHandle,
-                                 WinSock2.TSockAddr(ChannelImpl.RemoteAddrPtr^),
+  ResCode := JwaWinsock2.WSAConnect(ChannelImpl.SocketHandle,
+                                 ChannelImpl.RemoteAddrPtr,
                                  SizeOf(TSockAddrIn), Nil, Nil, Nil, Nil);
 
   //check if connection returned the error code
@@ -496,7 +496,7 @@ destructor  TDnTcpConnectRequest.Destroy;
 begin
   if FConnectSignal <> 0 then
   begin
-    WinSock2.WSACloseEvent(FConnectSignal);
+    JwaWinsock2.WSACloseEvent(FConnectSignal);
     FConnectSignal := 0;
   end;
   inherited Destroy;

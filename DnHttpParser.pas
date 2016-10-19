@@ -12,7 +12,7 @@ unit DnHttpParser;
 
 interface
 
-uses SysUtils, Windows, shlwapi, Classes, contnrs, Math,
+uses SysUtils, Windows, JwaShLWAPI, Classes, contnrs, Math,
   DnRtl, DnConst, DnStringList
 {$IF DEFINED(VER200) OR DEFINED(VER210)}
   , AnsiStrings
@@ -900,7 +900,7 @@ begin
     Self.CopyHeaderValue(ContentLengthHdr, @ContentLength, Sizeof(ContentLength));
 
     // Get content length value
-    FContentLength := shlwapi.StrToIntA(@ContentLength);
+    FContentLength := JwaShLWAPI.StrToIntA(@ContentLength);
 
     FStage := (* TDnHttpRequestStage. *) hrsFormUrlEncoded;
   end
@@ -936,7 +936,7 @@ begin
       Self.CopyHeaderValue(ContentLengthHdr, @ContentLength, SizeOf(ContentLength));
 
       // Get content length value
-      FContentLength := shlwapi.StrToIntA(@ContentLength);
+      FContentLength := JwaShLWAPI.StrToIntA(@ContentLength);
     end;
   end;
 end;
