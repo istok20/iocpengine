@@ -3,6 +3,8 @@ iocpengine
 
 Оригинал когда-то нашёл на просторах интернета у юзера FabianKantereit: https://bitbucket.org/FabianKantereit/iocpengine ;
 
+Адаптировано и компилируется с: https://github.com/nikitayev/jwapi/ ;
+
 Есть такая тема - порты завершения (IOCP): https://habrahabr.ru/post/59282/
 Китайские ресурсы на эту тему:
 http://www.diocp.org/ ,
