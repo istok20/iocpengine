@@ -297,14 +297,14 @@ type
     procedure Clear;
     procedure AddVersion(Version: TDnHttpVersion);
     procedure AddResponseCode(Code: Integer);
-    procedure AddResponseMsg(Msg: PByte);
+    procedure AddResponseMsg(Msg: ansistring);
     procedure AddHeader(const HeaderName: PAnsiChar;
       const HeaderValue: PAnsiChar); overload;
     procedure AddHeader(const HeaderName: PAnsiChar; HeaderValue: Integer);
       overload;
     procedure FinishHeader;
 
-    procedure AddContent(const Buffer: PByte; BufferSize: Integer);
+    procedure AddContent(const Buffer: ansistring; BufferSize: Integer);
     procedure Build;
 
     property ChunkedEncoding: Boolean read FHTTPChunkedEncoding write
@@ -1528,7 +1528,7 @@ begin
   QueueBuffer(@FormatResult);
 end;
 
-procedure TDnHttpWriter.AddResponseMsg(Msg: PByte);
+procedure TDnHttpWriter.AddResponseMsg(Msg: ansistring);
 var
   CRLF: PAnsiChar;
 begin
@@ -1590,7 +1590,7 @@ begin
   FHeaderSize := FContentSize;
 end;
 
-procedure TDnHttpWriter.AddContent(const Buffer: PByte;
+procedure TDnHttpWriter.AddContent(const Buffer: ansistring;
   BufferSize: Integer);
 var
   ChunkLength: packed array [0 .. 32] of AnsiChar;

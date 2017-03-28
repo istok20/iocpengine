@@ -99,7 +99,7 @@ begin
       Channel.Response.ChunkedEncoding := False;
       Channel.Response.ContentLength := StrLen(PAnsiChar(HtmlContent));
       Channel.Response.FinishHeader;
-      Channel.Response.AddContent(PAnsiChar(HtmlContent), Channel.Response.ContentLength);
+      Channel.Response.AddContent(HtmlContent, Channel.Response.ContentLength);
       Server.SendResponse(Channel);
     end
     else
@@ -113,7 +113,7 @@ begin
       Channel.Response.AddContent(PAnsiChar(HtmlContent), Length(HtmlContent));
 
       // Add finish chunk
-      Channel.Response.AddContent(Nil, 0);
+      Channel.Response.AddContent('', 0);
 
       Server.SendResponse(Channel);
     end

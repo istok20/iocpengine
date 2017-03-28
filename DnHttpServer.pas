@@ -738,7 +738,7 @@ begin
   HttpChannel.Response.Clear;
   HttpChannel.Response.AddVersion(HttpChannel.Request.Version);
   HttpChannel.Response.AddResponseCode(400);
-  HttpChannel.Response.AddResponseMsg(PByte(PAnsiChar('Bad Request')));
+  HttpChannel.Response.AddResponseMsg('Bad Request');
   HttpChannel.Response.FinishHeader;
   HttpChannel.CloseAfterSend := True;
 

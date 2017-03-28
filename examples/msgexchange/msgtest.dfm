@@ -1,9 +1,9 @@
 object FrmTest: TFrmTest
   Left = 390
   Top = 282
-  Width = 372
-  Height = 386
   Caption = 'Msg test'
+  ClientHeight = 348
+  ClientWidth = 356
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

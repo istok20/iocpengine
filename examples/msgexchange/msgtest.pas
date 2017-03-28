@@ -16,8 +16,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BtServerClick(Sender: TObject);
     procedure BtClientClick(Sender: TObject);
-    procedure BtConnectClick(Sender: TObject);
-    procedure BtDisconnectClick(Sender: TObject);
     procedure TmrSendTimer(Sender: TObject);
     procedure TmrLogTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -69,7 +67,7 @@ begin
   FClient.Handshake := true;
   FClient.Host := '127.0.0.1';
   //FClient.Host := '127.0.0.1';
-  FClient.Port := 8083;
+  FClient.Port := 80;
   FClient.OnConnected := Self.Client_Connected;
   FClient.OnDisconnected := Self.Client_Disconnected;
   FClient.OnStreamSent := Self.Client_StreamSent;
@@ -80,7 +78,7 @@ begin
   FClient.OnClientList := Self.Client_ListOfClients;
   FClient.MarshallWindow := Self.Handle;
 
-  FServer.Port := 8083;
+  FServer.Port := 80;
   FServer.OnClientConnected := Self.Server_ClientConnected;
   FServer.OnClientDisconnected := Self.Server_ClientDisconnectedEvent;
   FServer.OnClientAuthentication := Self.Server_ClientAuthentication;
@@ -120,7 +118,7 @@ end;
 procedure TFrmTest.Server_ClientConnected(Sender: TObject; ClientRec: TClientRec);
 begin
   LogServer('client connected');
-  FServer.SendString('test', ClientRec);
+  //FServer.SendString('', ClientRec);
 end;
 
 procedure TFrmTest.Server_ClientAuthentication(Sender: TObject; ClientRec: TClientRec; var Authenticated: boolean);
@@ -136,10 +134,16 @@ begin
 end;
 
 procedure TFrmTest.Server_DataReceived(Sender: TObject; ClientRec: TClientRec; Stream: TStream);
+var
+  zStr: ansistring;
 begin
   LogServer('received ' + IntToStr(Stream.Size) + ' bytes');
+  SetLength(zStr, Stream.Size);
+  Stream.Read(zStr[1], Stream.Size);
+  LogServer(zStr);
   Stream.Position := 0;
   FServer.SendString('TTTTTTTTTTTTT', ClientRec);
+  zStr := '';
 end;
 
 procedure TFrmTest.Server_ClientDisconnectedEvent(Sender: TObject; ClientRec: TClientRec);
@@ -158,8 +162,8 @@ begin
 end;
 
 procedure TFrmTest.TmrLogTimer(Sender: TObject);
-var
-  i: integer;
+//var
+//  i: integer;
 begin
   FLogGuard.Enter;
   try
@@ -202,7 +206,7 @@ end;
 procedure TFrmTest.Client_Disconnected(Sender: TObject);
 begin
   LogClient('client disconnected from server');
-  //FClient.Connect;
+  //FClient.Connect;  auto reconnect
 end;
 
 procedure TFrmTest.Client_Error(Sender: TObject; ErrorMessage: ansistring);
@@ -211,8 +215,8 @@ begin
 end;
 
 procedure TFrmTest.Client_DataReceived(Sender: TObject; Stream: TStream);
-var
-  Response: ansistring;
+//var
+//  Response: ansistring;
 begin
   LogClient('Received ' + IntToStr(Stream.Size) + ' bytes.');
   (*
@@ -245,19 +249,7 @@ begin
   end;
 end;
 
-procedure TFrmTest.BtConnectClick(Sender: TObject);
-begin
-  FClient.Connect;
-end;
-
-procedure TFrmTest.BtDisconnectClick(Sender: TObject);
-begin
-  FClient.Disconnect;
-end;
-
 procedure TFrmTest.BtServerClick(Sender: TObject);
-var
-  I: integer;
 begin
   if FServer.Active then
   begin
