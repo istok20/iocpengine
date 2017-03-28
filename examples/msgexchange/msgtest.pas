@@ -56,6 +56,17 @@ implementation
 
 {$R *.dfm}
 
+function GetStringFromStream(aStream: TStream):ansistring;
+begin
+  if (aStream.Size > 0) then
+  begin
+    aStream.Position := 0;
+    SetLength(result, aStream.Size);
+    aStream.Read(result[1], aStream.Size);
+  end else
+    result := '';
+end;
+
 procedure TFrmTest.FormCreate(Sender: TObject);
 begin
   FLog := TStringList.Create();
@@ -64,7 +75,7 @@ begin
   FClient := TCommonMsgClient.Create(nil);
   FServer := TCommonMsgServer.Create(nil);
   FClient.HeartbeatInterval := 20;
-  FClient.Handshake := true;
+  FClient.Handshake := false; // Do Authentification
   FClient.Host := '127.0.0.1';
   //FClient.Host := '127.0.0.1';
   FClient.Port := 80;
@@ -102,7 +113,12 @@ var
   Msg: string;
 begin
   Msg := 'Server: ' + S;
-  FLog.Add(Msg);
+  FLogGuard.Enter;
+  try
+    FLog.Add(Msg);
+  finally
+    FLogGuard.Leave;
+  end;
   //OutputDebugString(PWideChar(Msg));
 end;
 
@@ -111,7 +127,12 @@ var
   Msg: string;
 begin
   Msg := 'Client: ' + S;
-  FLog.Add(Msg);
+  FLogGuard.Enter;
+  try
+    FLog.Add(Msg);
+  finally
+    FLogGuard.Leave;
+  end;
   //OutputDebugString(PWideChar(Msg));
 end;
 
@@ -137,12 +158,10 @@ procedure TFrmTest.Server_DataReceived(Sender: TObject; ClientRec: TClientRec; S
 var
   zStr: ansistring;
 begin
-  LogServer('received ' + IntToStr(Stream.Size) + ' bytes');
-  SetLength(zStr, Stream.Size);
-  Stream.Read(zStr[1], Stream.Size);
-  LogServer(zStr);
+  LogServer('received ' + GetStringFromStream(Stream));
   Stream.Position := 0;
-  FServer.SendString('TTTTTTTTTTTTT', ClientRec);
+  LogServer('send ' + '(TTTTTTTTTTTTT)');
+  FServer.SendString('(TTTTTTTTTTTTT)', ClientRec);
   zStr := '';
 end;
 
@@ -158,7 +177,7 @@ end;
 
 procedure TFrmTest.Server_StreamSent(Sender: TObject; Client: TClientRec; Stream: TStream);
 begin
-  LogServer('sent ' + IntToStr(Stream.Size) + ' bytes');
+  LogServer('sent ' + GetStringFromStream(Stream));
 end;
 
 procedure TFrmTest.TmrLogTimer(Sender: TObject);
@@ -189,13 +208,12 @@ begin
 end;
 
 procedure TFrmTest.TmrSendTimer(Sender: TObject);
-var
-  Msg: ansistring;
 begin
-  SetLength(Msg, 4096);
   if FClient.Active then
-    FClient.SendString(Msg);
-  //FClient.SendString('TESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTESTTESTESTESTESTESTEST');
+  begin
+    LogClient('Send ' + '(TESTESTESTESTESTEST)');
+    FClient.SendString('(TESTESTESTESTESTEST)');
+  end;
 end;
 
 procedure TFrmTest.Client_Connected(Sender: TObject);
@@ -215,22 +233,13 @@ begin
 end;
 
 procedure TFrmTest.Client_DataReceived(Sender: TObject; Stream: TStream);
-//var
-//  Response: ansistring;
 begin
-  LogClient('Received ' + IntToStr(Stream.Size) + ' bytes.');
-  (*
-  SetLength(Response, 256);
-
-  // SetLength(Response, 1024*1024*2);
-  FillChar(Response[1], Length(Response), 23);
-  FClient.SendString(Response);
-  *)
+  LogClient('Received: ' + GetStringFromStream(Stream));
 end;
 
 procedure TFrmTest.Client_StreamSent(Sender: TObject; Stream: TStream);
 begin
-  LogClient('sent ' + IntToStr(Stream.Size) + ' bytes.');
+  LogClient('sent ' + GetStringFromStream(Stream));
 end;
 
 procedure TFrmTest.BtClientClick(Sender: TObject);

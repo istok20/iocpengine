@@ -13,6 +13,9 @@ object FrmTest: TFrmTest
   OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  DesignSize = (
+    356
+    348)
   PixelsPerInch = 96
   TextHeight = 13
   object BtServer: TButton
@@ -36,8 +39,9 @@ object FrmTest: TFrmTest
   object MmLog: TMemo
     Left = 8
     Top = 39
-    Width = 318
-    Height = 288
+    Width = 340
+    Height = 301
+    Anchors = [akLeft, akTop, akRight, akBottom]
     ScrollBars = ssVertical
     TabOrder = 2
   end
@@ -49,7 +53,7 @@ object FrmTest: TFrmTest
     Top = 104
   end
   object TmrLog: TTimer
-    Interval = 20
+    Interval = 50
     OnTimer = TmrLogTimer
     Left = 248
     Top = 216
