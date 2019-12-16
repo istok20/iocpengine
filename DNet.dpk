@@ -10,34 +10,6 @@
 // rights and limitations under the License.
 package DNet;
 
-{$R *.res}
-{$R 'DNET.DCR'}
-{$ALIGN 8}
-{$ASSERTIONS ON}
-{$BOOLEVAL OFF}
-{$DEBUGINFO ON}
-{$EXTENDEDSYNTAX ON}
-{$IMPORTEDDATA ON}
-{$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
-{$LONGSTRINGS ON}
-{$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
-{$OVERFLOWCHECKS OFF}
-{$RANGECHECKS OFF}
-{$REFERENCEINFO ON}
-{$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
-{$TYPEDADDRESS OFF}
-{$VARSTRINGCHECKS ON}
-{$WRITEABLECONST ON}
-{$MINENUMSIZE 1}
-{$IMAGEBASE $400000}
-{$DESCRIPTION 'DNet Delphi components'}
-{$IMPLICITBUILD OFF}
-{$DEFINE DEBUG}
-{$DEFINE DISALLOW_EXPERIMENTAL}
-
 requires
   vcl,
   vclx;
@@ -84,10 +56,11 @@ contains
   DnTimerEngine in 'DnTimerEngine.pas',
   DnUtils in 'DnUtils.pas',
   DnWinSockMgr in 'DnWinSockMgr.pas',
-  OpenSSLImport in 'OpenSSLImport.pas',
-  OpenSSLUtils in 'OpenSSLUtils.pas',
-  svcguid in 'svcguid.pas',
-  DnTlsBox in 'DnTlsBox.pas',
-  DnTlsChannel in 'DnTlsChannel.pas';
+  //OpenSSLUtils in 'OpenSSLUtils.pas',
+  svcguid in 'svcguid.pas';
+  //DnTlsBox in 'DnTlsBox.pas',
+  //DnTlsChannel in 'DnTlsChannel.pas';
+
+
 
 end.

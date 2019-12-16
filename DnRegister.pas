@@ -28,8 +28,8 @@ uses
   DnTcpRequest,
   DnMsgClient,
   DnStringList,
-  DnHttpServer,
-  DnTlsBox
+  DnHttpServer
+  //DnTlsBox
   ;  
 
 procedure Register;
@@ -41,7 +41,9 @@ begin
   RegisterComponents('DNet',
     [TDnFileCachedLogger, TDnCallbackLogger, TDnSimpleExecutor, TDnTcpRequestor,
      TDnHttpRequestor, TDnTcpReactor, TDnTcpListener, TDnTcpConnecter, TDnTcpFileWriter,
-     TDnWinsockMgr, TDnHttpServer, TDnTlsBox]);
+     TDnWinsockMgr, TDnHttpServer
+     //, TDnTlsBox
+     ]);
 end;
 
 end.
