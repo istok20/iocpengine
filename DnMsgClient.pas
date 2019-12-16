@@ -8,7 +8,8 @@ uses JwaWinsock2, Classes, contnrs, SyncObjs, SysUtils,
 
 const
   ClientTempStorageSize = 8192;
-  MaxMessageSize = 1024 * 1024 * 50; //50Mb
+  //MaxMessageSize = 1024 * 1024 * 50; //50Mb
+  MaxMessageSize = 1024 * 50; //50Kb
 
 type
   TOnClientErrorEvent = procedure (Sender: TObject; ErrorMessage: AnsiString) of object;
@@ -101,6 +102,7 @@ type
     FMarshallMsg: Integer;
     FEventList: TObjectList;
     FDataSignal: THandle;
+    FDestroying: boolean;
 
     procedure SetActive(AValue: Boolean);
     procedure PostClientConnect;
@@ -282,6 +284,7 @@ type
 
     // Socket was connected ok
     FWasConnected: Boolean;
+    FDestroying: boolean;
 
     procedure LogMsg(S: AnsiString);
     function  InternalConnect: Cardinal;
@@ -424,23 +427,26 @@ end;
 
 destructor TCommonMsgClient.Destroy;
 begin
+  if FDestroying then
+    exit;
+  FDestroying := True;
   Disconnect;
 
   // Stop thread
-  FGuard.Enter;
+  {FGuard.Enter;
   try
     if Assigned(FThread) then
     begin
       FThread.Terminate;
       FStateSignal.SetEvent;
       FThread.WaitFor;
-      FreeAndNil(FThread);
+      //FreeAndNil(FThread);
     end;
     FActive := False;
   finally
     FGuard.Leave;
   end;
-
+  }
   FreeAndNil(FEventList);
   FreeAndNil(FClientListArrived);
   FreeAndNil(FThreadFinished);
@@ -565,6 +571,21 @@ begin
   // Signal thread to close existing connection
   FActive := False;
   FStateSignal.SetEvent;
+  // Stop thread
+  FGuard.Enter;
+  try
+    if Assigned(FThread) then
+    begin
+      FThread.Terminate;
+      FStateSignal.SetEvent;
+      //FThread.WaitFor;
+      //FreeAndNil(FThread);
+      FThread := nil;
+    end;
+    FActive := False;
+  finally
+    FGuard.Leave;
+  end;
 end;
 
 procedure TCommonMsgClient.SendStream(AStream: TStream);
@@ -687,12 +708,17 @@ begin
 end;
 
 procedure TCommonMsgClient.DoClientDisconnect;
+var
+  tmp: TNotifyEvent;
 begin
+  tmp := FOnDisconnected;
   if Assigned(FOnDisconnected) then
   try
-    FOnDisconnected(Self);
+    FOnDisconnected := nil;
+    tmp(Self);
   except
   end;
+  FOnDisconnected := tmp;
 end;
 
 procedure TCommonMsgClient.PostClientError(Msg: RawByteString);
@@ -882,6 +908,7 @@ begin
 constructor TCommonMsgClientHandler.Create(Client: TCommonMsgClient);
 begin
   inherited Create(True);
+  FreeOnTerminate := True;
 {$ENDIF}
   FClient := Client;
   FClientList := TObjectList.Create(True);
@@ -898,6 +925,9 @@ end;
 
 destructor TCommonMsgClientHandler.Destroy;
 begin
+  FDestroying := True;
+  if FDestroying then
+    exit;
   //FreeAndNil(FStreamInfo);
   FreeAndNil(FClientList);
 {$IFNDEF USECONNECTFIBER}
@@ -1053,7 +1083,11 @@ end;
 procedure TCommonMsgClientHandler.HandleDisconnecting;
 begin
   if (FClient.FSocket <> INVALID_SOCKET) and FWasConnected then
+  begin
     JwaWinsock2.shutdown(FClient.FSocket, 2);
+    JwaWinsock2.closesocket(FClient.FSocket);
+    FClient.FSocket := JwaWinsock2.INVALID_SOCKET;
+  end;
   InternalDisconnect;
 end;
 

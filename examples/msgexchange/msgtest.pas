@@ -73,7 +73,6 @@ begin
   FLogGuard := TCriticalSection.Create();
 
   FClient := TCommonMsgClient.Create(nil);
-  FServer := TCommonMsgServer.Create(nil);
   FClient.HeartbeatInterval := 20;
   FClient.Handshake := false; // Do Authentification
   FClient.Host := '127.0.0.1';
@@ -89,6 +88,7 @@ begin
   FClient.OnClientList := Self.Client_ListOfClients;
   FClient.MarshallWindow := Self.Handle;
 
+  FServer := TCommonMsgServer.Create(nil);
   FServer.Port := 80;
   FServer.OnClientConnected := Self.Server_ClientConnected;
   FServer.OnClientDisconnected := Self.Server_ClientDisconnectedEvent;

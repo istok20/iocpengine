@@ -10,7 +10,8 @@ uses  Classes, SysUtils, SyncObjs, contnrs,
 
 const
   //The maximum message size expected by server
-  MaxMessageSize = 128*1024*1024;
+  //MaxMessageSize = 128*1024*1024;
+  MaxMessageSize = 50*1024;
 
 type
   //enumeration for read stages
@@ -139,6 +140,7 @@ type
 
     procedure SendStream(AStream: TStream; AClientId: RawByteString); overload;
     procedure SendStream(AStream: TStream; AClientIndex: Integer); overload;
+    procedure SendStream(AStream: TStream; AClient: TClientRec); overload;
     procedure SendString(AString: RawByteString; Client: TClientRec);
     procedure BroadcastStream(AStream: TStream);//send stream to all clients
 
@@ -568,7 +570,7 @@ var Client: TClientRec;
 begin
   if not Assigned(AStream) then
     Exit;
-	
+
   //find client record and send stream
   if GetClientByIndex(AClientIndex, Client) then
     InternalSend(Client, AStream.Size, 0, AStream);
@@ -894,5 +896,14 @@ begin
     FListener.Active := False;
 end;
     
+
+procedure TCommonMsgServer.SendStream(AStream: TStream; AClient: TClientRec);
+begin
+  if not Assigned(AStream) then
+    Exit;
+
+  //find client record and send stream
+  InternalSend(AClient, AStream.Size, 0, AStream);
+end;
 
 end.
