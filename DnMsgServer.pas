@@ -10,8 +10,8 @@ uses  Classes, SysUtils, SyncObjs, contnrs,
 
 const
   //The maximum message size expected by server
-  //MaxMessageSize = 128*1024*1024;
-  MaxMessageSize = 50*1024;
+  MaxMessageSize = 128*1024*1024;
+  //MaxMessageSize = 50*1024;
 
 type
   //enumeration for read stages
