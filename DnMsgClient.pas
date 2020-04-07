@@ -8,8 +8,8 @@ uses JwaWinsock2, Classes, contnrs, SyncObjs, SysUtils,
 
 const
   ClientTempStorageSize = 8192;
-  //MaxMessageSize = 1024 * 1024 * 50; //50Mb
-  MaxMessageSize = 1024 * 50; //50Kb
+  MaxMessageSize = 1024 * 1024 * 50; //50Mb
+  //MaxMessageSize = 1024 * 50; //50Kb
 
 type
   TOnClientErrorEvent = procedure (Sender: TObject; ErrorMessage: AnsiString) of object;
