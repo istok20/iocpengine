@@ -1166,8 +1166,8 @@ begin
                           if FClient.FHeartbeatInterval > 0 then
                           begin
                             if (Now - FLastHeartbeat) * 86400 > FClient.FHeartbeatInterval then
-                              FClient.PostClientError('I/O timeouted')
-                            else
+                              FClient.PostClientError('I/O timeouted');
+                            if FClient.FActive then
                               FClient.PostHeartbeatMsg();
                           end;
                         end;
