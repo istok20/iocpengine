@@ -1310,6 +1310,11 @@ begin
     begin
       if JwaWinsock2.WSAGetLastError() = WSAEWOULDBLOCK then
         FCanWrite := False
+      else if JwaWinsock2.WSAGetLastError() = WSAECONNRESET then
+      begin
+        FClient.PostClientError('JwaWinsock2.send() failed. Error code is WSAECONNRESET');
+        FClient.FState := cmDisconnecting;
+      end
       else
         FClient.PostClientError(AnsiString(Format('JwaWinsock2.send() failed. Error code is %u', [WSAGetLastError()])));
 
